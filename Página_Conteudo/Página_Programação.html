@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-learning Nkongolo - Cursos de Informática</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            transition: margin-left 0.3s;
+        }
+
+        /* Header */
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .texto-conteudo {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-toggle {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Barra de Pesquisa */
+        .search-container {
+          margin: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 220px;
+            border: none;
+            border: 2px solid #007CDB;
+            border-radius: 35px;
+        }
+        .botao {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 35px;
+            color: white;
+            cursor: pointer;
+        }
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100%;
+            background: white;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin: 1rem 0;
+        }
+
+        .sidebar-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.8rem 1rem;
+            display: block;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .sidebar-nav a:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .ad-banner {
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .ad-banner img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Cursos */
+        .cursos-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .curso {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .curso:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .curso video {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                margin-left: 300px;
+            }
+            .sidebar {
+                left: 0;
+            }
+            .menu-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+        <h1 class="texto-conteudo">E-learning Nkongolo</h1>
+        <h3>Curso de Informática</h3>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Pesquise por curso..." oninput="searchContent()">
+        <button class="botao" type="button">🔍 Pesquisar</button>
+    </div>
+
+    <nav class="sidebar">
+        <div class="sidebar-nav">
+            <ul>
+                <li><a href="/E-learning Nkongolo /Página_Principal.html">🌟 Início</a></li>
+                <li><a href="/Curso/Curso.html">🎓 Cursos</a></li>
+                <hr>
+                <li><a href="/E-learning Nkongolo /IA /Nkongolo_IA.html">🤖 Nkongolo IA</a></li>
+                <li><a href="/Divertimento/Divertimento.html">🎮 Divertimento</a></li>
+                <hr>
+                <li><a href="/História/Biblioteca.html">📚 Biblioteca</a></li>
+            </ul>
+            
+            <div class="ad-banner">
+                <img src="/Galeria/Engenheiro.jpg" alt="Curso Avançado de IA">
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="cursos-container">
+            <div class="curso">
+                <video controls>
+                    <source src="caminho/para/video-programacao.mp4" type="video/mp4">
+                </video>
+                <h2>Programação</h2>
+                <p>Aprenda a programar em diferentes linguagens e desenvolva suas habilidades!</p>
+            </div>
+
+            <div class="curso">
+                <video controls>
+                    <source src="caminho/para/video-frontend.mp4" type="video/mp4">
+                </video>
+                <h2>Programação Front End</h2>
+                <p>Aprenda a programar de forma simples com HTML e CSS!</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Toggle Sidebar
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        }
+
+        // Fechar sidebar ao clicar fora (mobile)
+        document.addEventListener('click', function(e) {
+            const sidebar = document.querySelector('.sidebar');
+            if(window.innerWidth < 768 && 
+               !e.target.closest('.sidebar') && 
+               !e.target.closest('.menu-toggle')) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Função de busca
+        function searchContent() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const courses = document.querySelectorAll('.curso');
+            
+            courses.forEach(course => {
+                const courseText = course.textContent.toLowerCase();
+                course.style.display = courseText.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+
+        // Adaptar layout ao redimensionar
+        window.addEventListener('resize', () => {
+            if(window.innerWidth >= 768) {
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

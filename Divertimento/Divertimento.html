@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divertimento Curso</title>
+    <style>
+        /* Reset CSS e Variáveis */
+        :root {
+            --cor-primaria: #2c3e50;
+            --cor-secundaria: #3498db;
+            --cor-fundo: #f5f6fa;
+            --cor-texto: #2c3e50;
+            --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: var(--cor-fundo);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: white;
+            box-shadow: var(--sombra);
+            position: relative;
+            z-index: 1000;
+        }
+
+        h1 {
+            color: var(--cor-primaria);
+            font-size: 1.8rem;
+        }
+
+        /* Barra de Pesquisa */
+        #searchSecao {
+            display: flex;
+            gap: 0.2rem;
+            flex: 0 1 300px;
+        }
+
+        #searchInput {
+            padding: 0.1rem;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            flex: 1;
+            transition: all 0.3s;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--cor-secundaria);
+        }
+
+        .botao {
+            padding: 0.8rem 1.5rem;
+            background: var(--cor-secundaria);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .botao:hover {
+            transform: scale(1.05);
+        }
+
+        /* Menu Lateral */
+        .sidebar {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: white;
+            box-shadow: var(--sombra);
+            transition: all 0.3s;
+            z-index: 999;
+            padding: 1rem;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 998;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .navegacao-botao {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: none;
+            border-radius: 10px;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .navegacao-botao:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        /* Conteúdo Principal */
+        main {
+            padding: 2rem;
+            margin-left: 0;
+            transition: margin 0.3s;
+        }
+
+        /* Cards de Jogos */
+        #gamesGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .cartao {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: transform 0.3s;
+        }
+
+        .cartao:hover {
+            transform: translateY(-5px);
+        }
+
+        .cartao img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .cartao-content {
+            padding: 1.5rem;
+        }
+
+        .cartao-titulo {
+            color: var(--cor-primaria);
+            margin-bottom: 0.5rem;
+        }
+
+        .cartao-descricao {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .cartao .button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--cor-secundaria);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s;
+        }
+
+        .cartao .button:hover {
+            background: #2980b9;
+        }
+
+        /* Responsividade */
+        @media (min-width: 768px) {
+            .sidebar {
+                left: 0;
+                margin-left: 0;
+            }
+
+            main {
+                margin-left: 250px;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+        }
+
+        @media (max-width: 767px) {
+            header {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            #searchSecao {
+                flex: 1;
+                margin: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        
+        <div id="searchSecao">
+            <input type="text" id="searchInput" placeholder="Pesquisar jogos..." onkeyup="searchJogos()">
+            <button class="botao" onclick="searchJogos()">🔍</button>
+        </div>
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    </header>
+    <br>
+      <center>
+        <h1>Divertimento</h1>
+      </center>
+    <div class="overlay" onclick="toggleSidebar()"></div>
+
+    <nav class="sidebar">
+        <button class="navegacao-botao" onclick="showGame('memory')">🎮 Jogo da Memória</button>
+        <button class="navegacao-botao" onclick="showGame('quiz')">📚 Jogos de Leitura</button>
+        <button class="navegacao-botao" onclick="showGame('culinary')">👩🍳 Culinária</button>
+        <button class="navegacao-botao" onclick="showGame('language')">🌍 Jogo de Idiomas</button>
+    </nav>
+
+    <main id="jogoConteudo">
+        <div class="jogo-conteudo" id="gamesGrid">
+            <div class="cartao">
+                <img src="placeholder.jpg" alt="Jogo X Bola">
+                <div class="cartao-content">
+                    <h2 class="cartao-titulo">Jogo X Bola</h2>
+                    <p class="cartao-descricao">Aprenda a se conectar com o X.</p>
+                    <a href="#" class="button">Jogar</a>
+                </div>
+            </div>
+
+            <div class="cartao">
+                <img src="placeholder.jpg" alt="Perguntas e respostas">
+                <div class="cartao-content">
+                    <h2 class="cartao-titulo">Conhecimento</h2>
+                    <p class="cartao-descricao">Teste seu conhecimento no mundo Arco-íris.</p>
+                    <a href="/E-Nkongolo/Divertimento /Perguntas.html" class="button">Jogar</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.overlay').classList.toggle('active');
+        }
+
+        function searchJogos() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.cartao');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.cartao-titulo').textContent.toLowerCase();
+                card.style.display = title.includes(input) ? 'block' : 'none';
+            });
+        }
+
+        function showGame(gameType) {
+            // Implementação futura de carregamento dinâmico
+            alert(`Exibindo jogo: ${gameType}`);
+            toggleSidebar();
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.querySelector('.sidebar').classList.remove('active');
+                document.querySelector('.overlay').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

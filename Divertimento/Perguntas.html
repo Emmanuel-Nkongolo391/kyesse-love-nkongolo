@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divertimento - Nkongolo de Informática</title>
+    <style>
+        :root {
+            --primary-color: #70A0D0;
+            --secondary-color: #3498DB;
+            --success-color: #27AE60;
+            --danger-color: #E74C3C;
+        }
+
+        body {
+            font-family: Arial sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f6fa;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            color: var(--danger-color);
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .question {
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            line-height: 1.4;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option-btn {
+            padding: 15px;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fff;
+            font-size: 1.1em;
+        }
+
+        .option-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .score-board {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+
+        .ranking {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+        }
+
+        .correct {
+            background-color: var(--success-color) !important;
+            color: white;
+            border-color: var(--success-color);
+        }
+
+        .wrong {
+            background-color: var(--danger-color) !important;
+            color: white;
+            border-color: var(--danger-color);
+        }
+
+        .restart-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px auto 0;
+            display: block;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .question {
+                font-size: 1.1em;
+            }
+            
+            .option-btn {
+                padding: 12px;
+                font-size: 1em;
+            }
+            
+            .timer {
+                font-size: 1em;
+            }
+            
+            .restart-btn {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+
+        .progress {
+            text-align: center;
+            margin: 10px 0;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <h1>Divertimento</h1>
+            <p>Quiz de Informática</p>
+        </div>
+        
+        <div class="timer">⏳ Tempo: <span id="time">30</span>s</div>
+        <div class="progress">Pergunta <span id="current">1</span> de <span id="total">20</span></div>
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+        <div class="score-board">
+            🏆 Pontuação: <span id="score">0</span>
+        </div>
+        <div class="ranking">
+            <h3>🏅 Ranking Top 5</h3>
+            <ol id="ranking-list"></ol>
+        </div>
+        <button class="restart-btn" onclick="restartQuiz()">🔁 Reiniciar Quiz</button>
+    </div>
+
+    <script>
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        const timePerQuestion = 30;
+        let timeLeft = timePerQuestion;
+
+        const questions = [
+          {
+            question:" Quem inventou este Jogo?",
+            options: ["Afonso Pedro", "Emmanuel kyesse Love Nkongolo", "Engenheiro Bonthe Matondo", "Engenheiro Josimar Martins"],
+            correct: 1
+          },
+            {
+                question: "Qual componente é considerado o 'cérebro' do computador?",
+                options: ["CPU", "GPU", "RAM", "HDD"],
+                correct: 0
+            },
+            {
+              question: "Qual a diferença entre class CSS?",
+              options: [ "class pode ser usada para estilizar múltiplos elementos","A class é leite com pão", "A class é comer bolinhos de côco"],
+              correct: 0
+            },
+            {
+                question: "Qual linguagem é usada para estilizar páginas web?",
+                options: ["HTML", "CSS", "Python", "JavaScript"],
+                correct: 1
+            },
+            
+            {
+                question: "O que significa a sigla 'HTTP'?",
+                options: ["HyperText Transfer Protocol", "High Traffic Text Protocol", 
+                        "Hyper Transfer Text Protocol", "High-Level Transfer Protocol"],
+                correct: 0
+            },
+            {
+                question: "Qual destes é um banco de dados relacional?",
+                options: ["MongoDB", "Redis", "MySQL", "Cassandra"],
+                correct: 2
+            },
+            {
+                question: "Qual camada do modelo OSI lida com roteamento?",
+                options: ["Física", "Rede", "Transporte", "Sessão"],
+                correct: 1
+            },
+            {
+                question: "O que é um algoritmo?",
+                options: ["Um tipo de hardware", "Uma linguagem de programação",
+                        "Um conjunto de instruções passo-a-passo", "Um protocolo de rede"],
+                correct: 2
+            },
+            {
+                question: "Qual framework é usado para desenvolvimento front-end?",
+                options: ["Django", "React", "Flask", "Spring"],
+                correct: 1
+            },
+            {
+                question: "O que significa IDE em programação?",
+                options: ["Integrated Development Environment", "Internet Development Engine",
+                        "Interface Design Element", "Integrated Debugging Environment"],
+                correct: 0
+            },
+            {
+                question: "Qual protocolo é usado para envio de e-mails?",
+                options: ["FTP", "SMTP", "HTTP", "SSH"],
+                correct: 1
+            },
+            {
+                question: "Qual destes é um sistema operacional de código aberto?",
+                options: ["Windows", "macOS", "Linux", "iOS"],
+                correct: 2
+            },
+            {
+                question: "O que é Git?",
+                options: ["Linguagem de programação", "Sistema de controle de versão",
+                        "Framework CSS", "Protocolo de internet"],
+                correct: 1
+            },
+            {
+                question: "Qual destes é um paradigma de programação?",
+                options: ["OOP", "HTTP", "SQL", "JSON"],
+                correct: 0
+            },
+            {
+                question: "Qual função do sistema operacional?",
+                options: ["Gerenciar hardware", "Executar JavaScript",
+                        "Otimizar CSS", "Criar bancos de dados"],
+                correct: 0
+            },
+            {
+                question: "O que é um firewall?",
+                options: ["Dispositivo de armazenamento", "Sistema de segurança de rede",
+                        "Linguagem de programação", "Tipo de processador"],
+                correct: 1
+            },
+            {
+              question: "O que entendes por id?", 
+              options: [ "id é único e pode ser atribuído a apenas um elemento na página", "id é um jogo de esconde-esconde", "id é paracuca"],
+              correct: 0
+            },
+            {
+                question: "Qual é a função principal do HTML?",
+                options: ["Estilizar páginas", "Estruturar conteúdo web",
+                        "Adicionar interatividade", "Gerenciar bancos de dados"],
+                correct: 1
+            }
+        ];
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            updateScore();
+            showQuestion(currentQuestionIndex);
+            startTimer();
+            document.getElementById('total').textContent = questions.length;
+        }
+
+        function showQuestion(index) {
+            const question = questions[index];
+            document.getElementById('question').textContent = question.question;
+            document.getElementById('current').textContent = index + 1;
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, i) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option;
+                button.onclick = () => selectAnswer(i);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function startTimer() {
+            timeLeft = timePerQuestion;
+            document.getElementById('time').textContent = timeLeft;
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('time').textContent = timeLeft;
+                
+                if(timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function selectAnswer(selectedIndex) {
+            clearInterval(timer);
+            const question = questions[currentQuestionIndex];
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach(option => option.disabled = true);
+            
+            if(selectedIndex === question.correct) {
+                options[selectedIndex].classList.add('correct');
+                score += timeLeft * 10;
+            } else {
+                options[selectedIndex].classList.add('wrong');
+                options[question.correct].classList.add('correct');
+            }
+            
+            updateScore();
+            setTimeout(showNextQuestion, 2000);
+        }
+
+        function showNextQuestion() {
+            currentQuestionIndex++;
+            if(currentQuestionIndex < questions.length) {
+                showQuestion(currentQuestionIndex);
+                startTimer();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+        }
+
+        function endQuiz() {
+            const ranking = JSON.parse(localStorage.getItem('quizRanking') || '[]');
+            ranking.push({score: score, date: new Date().toLocaleDateString()});
+            ranking.sort((a, b) => b.score - a.score);
+            localStorage.setItem('quizRanking', JSON.stringify(ranking.slice(0, 5)));
+            updateRanking();
+        }
+
+        function updateRanking() {
+            const ranking = JSON.parse(localStorage.getItem('quizRanking') || '[]');
+            const rankingList = document.getElementById('ranking-list');
+            rankingList.innerHTML = '';
+            
+            ranking.slice(0, 5).forEach((entry, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `${index + 1}. ${entry.score} pontos<br><small>${entry.date}</small>`;
+                li.style.margin = '8px 0';
+                li.style.padding = '8px';
+                li.style.background = '#fff';
+                rankingList.appendChild(li);
+            });
+        }
+
+        function restartQuiz() {
+            clearInterval(timer);
+            startQuiz();
+        }
+
+        startQuiz();
+        updateRanking();
+    </script>
+</body>
+</html>

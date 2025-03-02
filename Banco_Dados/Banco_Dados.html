@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema E-learning Nkongolo</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Estilos Gerais */
+        body {
+            background: #f0f2f5;
+            padding: 20px;
+        }
+
+        .conteudo {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Formulário */
+        .form-conteudo {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: 500;
+            color: #34495e;
+            align-self: center;
+        }
+
+        select, button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #bdc3c7;
+            font-size: 16px;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        /* Tabela */
+        .table-conteudo {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .form-conteudo {
+                grid-template-columns: 1fr;
+            }
+
+            select, button {
+                width: 100%;
+            }
+
+            .conteudo {
+                padding: 15px;
+            }
+
+            th, td {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="conteudo">
+        <h1>Dados de Aluno</h1>
+        <div class="form-conteudo">
+            <select id="curso-select">
+                <option value="culinaria">Curso de Culinária</option>
+                <option value="marketing">Curso de Marketing Digital</option>
+                <option value="programacao">Programação</option>
+                <option value="manutencao">Técnico de Manutenção Eletrônica</option>
+                   
+                  <option value="idiomas">Curso de Inglês</option>
+                  <option value="frances">Curso de Francês</option>
+                  <option value="espanhol">Curso de Espanhol</option>
+                
+              
+                <option value="hotelaria">Hotelaria e Turismo</option>
+                
+            </select>
+            <button onclick="adicionarAluno()">Adicionar Aluno</button>
+        </div>
+
+        <div class="table-conteudo">
+            <h2>Dados dos Alunos</h2>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Contacto</th>
+                        <th>Propina</th>
+                        <th>Matrícula</th>
+                        <th>Curso</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Dados serão carregados aqui -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Array para armazenar os alunos
+        let alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+
+        function adicionarAluno() {
+            const cursoSelect = document.getElementById('curso-select');
+            const curso = cursoSelect.options[cursoSelect.selectedIndex].text;
+            
+            const nome = prompt('Digite o nome do aluno:');
+            const email = prompt('Digite o e-mail do aluno:');
+            const contacto = prompt('Digite o contacto do aluno:');
+            const propina = parseFloat(prompt('Digite o valor da propina:')).toFixed(2);
+            const matricula = parseFloat(prompt('Digite o valor da matrícula:')).toFixed(2);
+
+            if (nome && email && contacto && propina && matricula) {
+                const aluno = {
+                    nome,
+                    email,
+                    contacto,
+                    propina,
+                    matricula,
+                    curso
+                };
+
+                alunos.push(aluno);
+                salvarDados();
+                atualizarTabela();
+            } else {
+                alert('Por favor, preencha todos os campos!');
+            }
+        }
+
+        function deletarAluno(index) {
+            if (confirm('Tem certeza que deseja excluir este aluno?')) {
+                alunos.splice(index, 1);
+                salvarDados();
+                atualizarTabela();
+            }
+        }
+
+        function salvarDados() {
+            localStorage.setItem('alunos', JSON.stringify(alunos));
+        }
+
+        function atualizarTabela() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            alunos.forEach((aluno, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${aluno.nome}</td>
+                    <td>${aluno.email}</td>
+                    <td>${aluno.contacto}</td>
+                    <td>${Number(aluno.propina).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</td>
+                    <td>${Number(aluno.matricula).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</td>
+                    <td>${aluno.curso}</td>
+                    <td>
+                        <button onclick="deletarAluno(${index})" style="background: #e74c3c; padding: 5px 10px; font-size: 14px;">
+                            Excluir
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Carregar dados ao iniciar
+        window.onload = atualizarTabela;
+    </script>
+</body>
+</html>

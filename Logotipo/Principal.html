@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nkongolo E-learning - Sabedoria com Alegria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --rainbow-1: #FF1B1B;
+            --rainbow-2: #FF8B1C;
+            --rainbow-3: #FCAF04;
+            --rainbow-4: #1DB55D;
+            --rainbow-5: #177EFF;
+            --rainbow-6: #6000FF;
+            --bg-color: #F8F9FA;
+            --text-primary: #2D3748;
+            --text-secondary: #4A5568;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .cabecalho {
+            padding: 1rem 2rem;
+            background: white;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-weight: 800;
+            background: linear-gradient(45deg, 
+                var(--rainbow-1), 
+                var(--rainbow-3),
+                var(--rainbow-5));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                var(--rainbow-1),
+                var(--rainbow-3),
+                var(--rainbow-5));
+            border-radius: 2px;
+        }
+
+        .secao {
+            margin-top: 6rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero {
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--text-primary);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .botao {
+            background: linear-gradient(135deg, var(--rainbow-4) 0%, var(--rainbow-5) 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 6px rgba(29, 181, 93, 0.2);
+        }
+
+        .botao:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(29, 181, 93, 0.3);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: 2rem;
+            padding: 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--rainbow-1), var(--rainbow-5));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.975rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .cabecalho {
+                padding: 1rem;
+            }
+            
+            .secao {
+                margin-top: 4rem;
+                padding: 1rem;
+            }
+            
+            .hero {
+                padding: 2rem 1rem;
+            }
+            
+            .botao {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="logo">E-learning Nkongolo</div>
+    </header>
+
+    <main>
+        <section class="secao">
+            <div class="hero">
+                <h1>Aprenda com Alegria, Amor e Sabedoria 🌈</h1>
+                <p>Descubra o arco-íris do conhecimento através da nossa plataforma interativa de ensino online</p>
+                <a href="/E-Nkongolo/Projeto.html" class="botao">
+                    <i class="fas fa-rocket"></i>
+                    Começar Agora
+                </a>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-graduation-cap feature-icon floating"></i>
+                    <h3>Cursos Interativos</h3>
+                    <p>Aprendizado gamificado com jogos educativos e sistema de recompensas</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-heartbeat feature-icon floating"></i>
+                    <h3>Aprendizado Personalizado</h3>
+                    <p>Planos de estudo adaptados ao seu ritmo e estilo de aprendizagem</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-chart-line feature-icon floating"></i>
+                    <h3>Progresso Visual</h3>
+                    <p>Acompanhe seu desenvolvimento com gráficos interativos e relatórios detalhados</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-users feature-icon floating"></i>
+                    <h3>Comunidade Ativa</h3>
+                    <p>Interação com outros alunos e professores em tempo real</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

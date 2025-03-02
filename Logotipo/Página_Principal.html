@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logotipo E-learning Nkongolo</title>
+  <style>
+  :root {
+            --rainbow-1: #FF6B6B;
+            --rainbow-2: #FF8B1C;
+            --rainbow-3: #FECA57;
+            --rainbow-4: #2ECC71;
+            --rainbow-5: #54A0FF;
+            --rainbow-6: #5F27CD;
+            --bg-color: #F9F9F9;
+        }
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body{
+  
+    margin: 0;  
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    background: linear-gradient(130deg, red,blue,red,purple,blue,pink);
+    background-size: 401% 401%;
+    animation: gradient 14s ease infinite;
+}
+@keyframes gradient{
+  0%{
+    background-position: 0% 50%;
+    
+  }
+  50%{
+    background-position: 100% 50%;
+  }
+  100%{
+    background-position: 0% 50%;
+  }
+}
+    .conteudo{
+      text-align: center;
+    }
+    .logo{
+      font-size: 3rem;
+      font-weight: bold;
+      background: linear-gradient(90deg,#FF4E28,#FFBD34,#71FF2C,#2FE5AA,#0B3AF9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: transform 0.1s;
+    animation: escrever 2s forwards;
+        }
+@keyframes escrever{
+  0%{
+    clip-path: inset(0 100% 0 0);
+  }
+  100%{
+    clip-path: inset(0 0 0 0);
+  }
+}
+    .logo:hover{
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+    .conteudos {
+    text-align: center;
+}
+
+.icon {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin: 18px auto;
+}
+
+.circulo {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.triangulo {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 60px solid #FA511C;
+    top: 30px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.quadrado {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: #1593F6;
+    top: 60px;
+    left: 50%;
+    transform: translate(-50%,0);
+}
+
+  </style>
+</head>
+<body>
+  <div class="conteudo">
+ <div class="conteudos">
+   <div class="icon">
+     <div class="circulo"></div>
+     <div class="triangulo"></div>
+     <div class="quadrado"></div>
+  </div>
+
+  <div class="logo" id="logo">
+    E-learning Nkongolo 
+  </div>
+</div>
+</div>
+
+<script>
+  
+    setTimeout( function(){
+      
+    window.location.href="/E-Nkongolo/Logotipo /Principal.html"
+  }, 2000)
+</script>
+</body>
+
+</html>
+
